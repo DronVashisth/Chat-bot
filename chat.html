@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Chatbot Interface</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      background-color: #222;
+      color: #fff;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .navbar {
+      margin-bottom: 0;
+    }
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .chat-box {
+      flex: 1;
+      overflow-y: auto;
+      background: #333;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .chat-message {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .user {
+      background: #00ff00;
+      color: #000;
+      text-align: right;
+    }
+    .bot {
+      background: #555;
+    }
+    .input-container {
+      display: flex;
+      border-top: 1px solid #444;
+      background: #333;
+      padding: 10px;
+    }
+    .input-container input {
+      flex: 1;
+      border: none;
+      border-radius: 5px 0 0 5px;
+      padding: 10px;
+      background: #444;
+      color: #fff;
+    }
+    .input-container button {
+      border: none;
+      border-radius: 0 5px 5px 0;
+      padding: 10px 20px;
+      background: #00ff00;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <a class="navbar-brand" href="#">CHAT BOT</a>
+    </div>
+  </nav>
+  <div class="chat-container">
+    <div class="chat-box" id="chat-box">
+      <div class="chat-message bot">Hello! How can I assist you today?</div>
+    </div>
+    <div class="input-container">
+      <input type="text" id="chat-input" placeholder="Type your message...">
+      <button id="send-button">Send</button>
+    </div>
+  </div>
+  <script>
+    const responses = {
+    'hi': 'Hey!!! How Can I Help You',
+    'hello': 'Hey!!! How Can I Help You',
+    'hlo': 'Hey!!! How Can I Help You',
+    'hey': 'Hey!!! How Can I Help You',
+    'tell me the code structure': ' ',
+    'kya tum mere viewers ko kuch suggest krna chahoge':'PLEASE FOLLOW AND SUBSCRIBE dron_vashisth For Coding With Fun',
+    'ram ram': 'Radhe Radhe!!! Main aapki kaisi madad kar sakta hoon?',
+    'i am stressed up with my studies': 'When studies start feeling overwhelming, it can be helpful to break things down into smaller, manageable tasks. Prioritize your assignments and set realistic goals for each day. Also, don\'t forget to take breaks and take care of yourself. Sometimes stepping away for a short time can give you a fresh perspective and renewed energy. If you need help with specific subjects or study techniques, let me know—I\'d be happy to help you out!',
+    'i am feeling low': 'I understand. It\'s okay to have moments like this. Sometimes just taking a break, doing something you enjoy, or talking to someone can help lift your mood. If there is anything specific you want to share or something you\'d like to do to feel better, I am here to listen and help however I can.',
+    'my girlfriend broke up with me': 'I\'m really sorry to hear that. Breakups are incredibly tough, and it\'s natural to feel overwhelmed and hurt right now. It might help to give yourself some time to process your feelings and reach out to friends or family for support. Focusing on things that make you feel good, like pursuing hobbies or activities you enjoy, can also be helpful. If you want to talk more about it or need some advice on coping, I\'m here for you.',
+    'who made you': 'Dron Vashisth made me to help people who can\'t afford a consultant. In this era, one in every five people is suffering from anxiety, stress, or depression, so I\'m here to talk to you and help you feel positive. You can discuss anything with me.',
+    'thank you': 'You\'re welcome! If you need anything else or have more questions, feel free to ask.',
+    'what can you do': 'I can help with various topics, provide information, offer support, and assist with any questions or concerns you might have. Just let me know what you need!',
+    'how are you': 'I\'m just a program, but I\'m here and ready to help you! How can I assist you today?',
+    'goodbye': 'Goodbye! If you need any more help in the future, don\'t hesitate to reach out.',
+    'help': 'I\'m here to help! Let me know what you need assistance with, and I\'ll do my best to provide support.',
+    'i am bored': 'Feeling bored can be a great opportunity to try something new or revisit an old hobby. Maybe explore a new topic, read a book, watch a movie, or take a walk. If you need suggestions, I can help with that too!',
+    'i am anxious': 'It\'s okay to feel anxious sometimes. It might help to take deep breaths, try relaxation techniques, or talk to someone you trust. If there\'s something specific causing your anxiety, sharing it might help you feel a bit better.',
+    'what time is it': 'I’m not able to check the time, but you can easily find it on your device or any clock around you.',
+    'what is your name': 'I don\'t have a personal name, but you can call me Assistant. I\'m here to help you with whatever you need.',
+    'can you tell me a joke': 'Sure! Why did the scarecrow win an award? Because he was outstanding in his field!',
+    'what is your favorite color': 'I don’t have personal preferences, but I can help you with information on any color you like. Do you have a favorite color?',
+
+};
+    $('#send-button').click(function() {
+      var message = $('#chat-input').val().trim().toLowerCase();
+      if (message) {
+        // Display user message
+        $('#chat-box').append('<div class="chat-message user">' + message + '</div>');
+        $('#chat-input').val('');
+        $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+
+        // Generate bot response
+        var botResponse = responses[message] || responses['default'];
+
+        // Display bot response
+        setTimeout(function() {
+          $('#chat-box').append('<div class="chat-message bot">' + botResponse + '</div>');
+          $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+        }, 1000);
+      }
+    });
+    
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
